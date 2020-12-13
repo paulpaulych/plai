@@ -1,6 +1,9 @@
 .gradle
 /build/
 
+/web-front/build/
+/web-front/.gradle/
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
