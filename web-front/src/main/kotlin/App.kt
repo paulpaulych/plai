@@ -12,7 +12,7 @@ internal class App : RComponent<RProps, AppState>() {
 
     override fun AppState.init() {
         unwatchedVideos = mutableListOf(
-            Video(1, "Building and breaking things", "John Doe", "https://youtu.be/PsaFVLr8t4E"),
+            Video(1, "Building and breaking things", "John Doe", "https://youtu.be/eboZd5aSioY"),
             Video(2, "The development process", "Jane Smith", "https://youtu.be/PsaFVLr8t4E"),
             Video(3, "The Web 7.0", "Matt Miller", "https://youtu.be/PsaFVLr8t4E")
         )
@@ -41,6 +41,7 @@ internal class App : RComponent<RProps, AppState>() {
             }
             state.currentVideo?.let { currentVideo ->
                 videoPlayer {
+                    key = currentVideo.url
                     video = currentVideo
                     isWatched = currentVideo in state.watchedVideos
                     onWatchedButtonPressed = {

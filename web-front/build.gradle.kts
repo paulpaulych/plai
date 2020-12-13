@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.js") version "1.4.20"
+    id("org.jetbrains.kotlin.js") version "1.4.21"
 }
 
 group = "org.example"
@@ -18,6 +18,11 @@ dependencies {
     implementation(npm("react", "16.13.1"))
     implementation(npm("react-dom", "16.13.1"))
 
+    //bootstrap
+    implementation(npm("style-loader", "2.0.0"))
+    implementation(npm("bootstrap", "4.5.3"))
+    implementation(npm("react-bootstrap", "1.4.0"))
+
     //Kotlin Styled (chapter 3)
     implementation("org.jetbrains:kotlin-styled:1.0.0-pre.110-kotlin-1.4.0")
     implementation(npm("styled-components", "~5.1.1"))
@@ -35,7 +40,11 @@ dependencies {
 
 kotlin {
     js {
-        browser {}
+        browser {
+            commonWebpackConfig {
+
+            }
+        }
         binaries.executable()
     }
 }

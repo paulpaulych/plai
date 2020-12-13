@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/web-front",
+    "packages/web-front-test"
+  ],
+  "resolutions": {},
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": [],
+  "name": "web-front",
+  "version": "1.0-SNAPSHOT"
+}
