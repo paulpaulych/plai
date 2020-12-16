@@ -1,0 +1,26 @@
+@startuml
+
+    title Match flow
+    participant Runner
+    participant Game
+    participant Agent
+    participant Solution
+
+    autonumber "<b> 0."
+
+    Runner -> Agent: start(GameConfig)
+    Agent -> Solution: start(GameConfig)
+    Runner -> Game: start(GameConfig)
+    Runner <-- Game: GameState
+
+    loop while GameState != GameOver
+        Runner -> History: saveState(GameState)
+        Runner -> Agent: turn(GameState)
+        Agent -> Solution: turn(GameState)
+        Agent <-- Solution: Turn
+        Runner <-- Agent: Turn
+        Runner -> Game: tick(Turn)
+        Runner <-- Game: GameState
+    end
+
+@enduml

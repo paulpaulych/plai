@@ -1,0 +1,15 @@
+@startuml
+
+    autonumber
+    MatchQueue <- Manager: listen for MatchSpec
+    MatchQueue --> Manager: MatchSpec
+
+    Manager -> SolutionStorage: Solution ID
+    Manager <-- SolutionStorage: Solution
+
+    Manager --> PlayerBuilder: build Solution
+     --> Deployer: deploy Solution
+
+    Manager -> Runner: Agent
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+    component Match {
+        control Runner as runner
+        control Game as game
+        control History as history
+    }
+
+    component Player {
+        control Agent as agent
+        control Solution as solution
+    }
+
+'    component Domain {
+'        entity GameState as state
+'        entity Turn as turn
+'        entity GameConfig as config
+'    }
+
+    runner .up.> game: use
+    runner ..> agent: use
+    runner .right.> history: use
+
+    agent .right.> solution: use
+
+@enduml

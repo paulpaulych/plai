@@ -1,0 +1,15 @@
+@startuml
+
+    boundary MatchQueue as queue
+    control MatchManager as manager
+    control Runner as runner
+    entity MatchSpec as spec
+    control StrategyStorage as storage
+
+    queue .up.> spec: <contains>
+    manager .up.> spec: <use>
+    manager ..> storage: <use>
+    manager .left.> queue: <listen>
+    manager ..> runner: <create>
+
+@enduml

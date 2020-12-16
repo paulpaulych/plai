@@ -1,0 +1,12 @@
+@startuml
+
+    User -> WebUI: Press "Upload" button
+    User <-- WebUI: "Browse Files" dialog
+    User -> WebUI: .zip
+        WebUI -> WebServer: .zip
+            WebServer -> SolutionStorage: save .zip
+            WebServer -> MatchQueue: push MatchSpec
+        WebUI <-- WebServer: msg: Solution Queued
+    User <-- WebUI: msg: Solution Queued
+
+@enduml
