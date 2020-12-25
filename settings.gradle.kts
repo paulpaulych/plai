@@ -1,4 +1,5 @@
 rootProject.name = "plai"
 
-include(":web-front")
-include(":snake")
+include(":arkanoid:core")
+include(":arkanoid:console-ui")
+include(":arkanoid")

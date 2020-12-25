@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.module.type="sourceSet" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output-test url="file://$MODULE_DIR$/../../../../arkanoid/console-ui/build/classes/kotlin/native/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../arkanoid/console-ui/src/nativeTest" />
+    <orderEntry type="jdk" jdkName="Kotlin SDK" jdkType="KotlinSDK" />
+    <orderEntry type="module" module-name="plai.arkanoid.console-ui.commonMain" scope="TEST" />
+    <orderEntry type="module" module-name="plai.arkanoid.console-ui.commonTest" scope="TEST" production-on-test="" />
+    <orderEntry type="module" module-name="plai.arkanoid.console-ui.nativeMain" scope="TEST" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - stdlib" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - builtin [linux_x64]" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - iconv [linux_x64]" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - linux [linux_x64]" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - posix [linux_x64]" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin/Native 1.4.21 - zlib [linux_x64]" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="plai.arkanoid.console-ui.nativeMain" />
+</module>

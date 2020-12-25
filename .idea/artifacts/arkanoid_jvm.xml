@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="arkanoid-jvm">
+    <output-path>$PROJECT_DIR$/arkanoid/build/libs</output-path>
+    <root id="archive" name="arkanoid-jvm.jar">
+      <element id="module-output" name="plai.arkanoid.jvmMain" />
+    </root>
+  </artifact>
+</component>

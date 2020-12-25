@@ -5,14 +5,18 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/web-front" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/snake" />
-            <option value="$PROJECT_DIR$/web-front" />
+            <option value="$PROJECT_DIR$/arkanoid" />
+            <option value="$PROJECT_DIR$/arkanoid/console-ui" />
+            <option value="$PROJECT_DIR$/arkanoid/core" />
           </set>
         </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
       </GradleProjectSettings>
     </option>
   </component>
