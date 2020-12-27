@@ -4,12 +4,6 @@ import io.paulpaulych.plai.domain.BallCollision.BrickCollision
 import io.paulpaulych.plai.domain.BallCollision.Type.*
 import kotlin.math.min
 
-
-
-interface Rectangle {
-    fun intersects(other: Rectangle):
-}
-
 data class GameConfig(
     val ballSpeed: Int,
     val paddleMaxSpeed: Int,
@@ -49,24 +43,9 @@ data class Brick(
 
 }
 
-data class GameState(
-    val bricks: List<Brick>,
-    val paddle: Paddle,
-    val ball: Ball)
-
-
-data class BallDirection(
-    val vertPositive: Boolean,
-    val horPositive: Boolean
-) {
-    fun opposite() = BallDirection(!vertPositive, !horPositive)
-    fun oppositeHorizontal() = BallDirection(!vertPositive, horPositive)
-    fun oppositeVertical() = BallDirection(vertPositive, !horPositive)
-
-    fun vector(len: Int) = Pair(
-        if(vertPositive) len else -len,
-        if(horPositive) len else -len)
-}
+data class Paddle (
+    val col: Int,
+    val speed: Int)
 
 data class Ball(
     val cell: Cell,
@@ -86,7 +65,25 @@ data class Ball(
             HORIZONTAL -> direction.oppositeHorizontal()
             VERTICAL -> direction.oppositeVertical()
         })
+}
 
+
+data class GameState(
+    val bricks: List<Brick>,
+    val paddle: Paddle,
+    val ball: Ball)
+
+data class BallDirection(
+    val vertPositive: Boolean,
+    val horPositive: Boolean
+) {
+    fun opposite() = BallDirection(!vertPositive, !horPositive)
+    fun oppositeHorizontal() = BallDirection(!vertPositive, horPositive)
+    fun oppositeVertical() = BallDirection(vertPositive, !horPositive)
+
+    fun vector(len: Int) = Pair(
+        if(vertPositive) len else -len,
+        if(horPositive) len else -len)
 }
 
 class Game(
@@ -135,21 +132,13 @@ class Game(
         }
         bricksToCells.map { (brick, cells) ->
             if (newBall.cell in cells){
-               return BrickCollision(brick, )
+               return BrickCollision(brick, CORNER)
             }
         }
 
         return null
     }
-
-    private fun brickCollisionType(): BallCollision.Type {
-
-    }
 }
-
-data class Paddle (
-    val col: Int,
-    val speed: Int)
 
 fun requirePositive(v: Int, name: String){
     require(v > 0) { "$name must be positive"}

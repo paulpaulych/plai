@@ -12,11 +12,9 @@
             <option value="$PROJECT_DIR$/arkanoid" />
             <option value="$PROJECT_DIR$/arkanoid/console-ui" />
             <option value="$PROJECT_DIR$/arkanoid/core" />
+            <option value="$PROJECT_DIR$/arkanoid/plai-server" />
           </set>
         </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
       </GradleProjectSettings>
     </option>
   </component>

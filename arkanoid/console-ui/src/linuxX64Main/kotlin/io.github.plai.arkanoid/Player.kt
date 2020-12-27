@@ -23,15 +23,15 @@ private fun print(config: GameConfig, state: GameState){
 
     state.bricks.forEach {
         val brick = it
-        rows[brick.row][brick.col] = '1'
-        rows[brick.row][brick.col+1] = '1'
-        rows[brick.row+1][brick.col] = '1'
-        rows[brick.row+1][brick.col+1] = '1'
+        rows[brick.startCell.row][brick.startCell.col] = '1'
+        rows[brick.startCell.row][brick.startCell.col+1] = '1'
+        rows[brick.startCell.row+1][brick.startCell.col] = '1'
+        rows[brick.startCell.row+1][brick.startCell.col+1] = '1'
     }
     val paddleCols = (state.paddle.col until (state.paddle.col + config.paddleSize))
     paddleCols.forEach { rows.last()[it] = 'X' }
 
-    rows[state.ball.row][state.ball.col] = '0'
+    rows[state.ball.cell.row][state.ball.cell.col] = '0'
 
     rows.forEach {
         it.forEach {
