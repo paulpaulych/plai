@@ -5,11 +5,10 @@ import io.ktor.application.*
 import io.ktor.http.ContentType.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.paulpaulych.plai.domain.GameState
 
 internal fun Routing.create() {
     get("/match") {
-        call.respond(getGameHistory().toList().map(GameState::toRepr))
+        call.respond(getMatch().toRepr())
     }
     get("/") {
         call.respondText("HELLO WORLD!", contentType = Text.Plain)

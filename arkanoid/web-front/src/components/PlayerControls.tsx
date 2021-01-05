@@ -1,21 +1,23 @@
-import {useState} from "react";
+import React from "react"
+import {Button} from "react-bootstrap"
 
 export function PlayerControls(props: PlayerControlsProps) {
-    const [isPlaying, setIsPlaying] = useState<boolean>()
-    return (
-        <div className="PlayerControls">
-            <button onClick={() =>{
-                props.onPlayPressed();
-                setIsPlaying(!isPlaying)
-            }}
-            >
-                play
-            </button>
-            { isPlaying && <h1>Playing...</h1> }
-        </div>
-)
+	return (
+		<div className="PlayerControls">
+			<Button disabled = { !props.prevEnabled } onClick = {() => props.onPrev()}>prev</Button>
+			<Button onClick={() => props.onPlay()}>
+				{ props.isPlaying ? "play" : "pause" }
+			</Button>
+			<Button disabled = { !props.nextEnabled } onClick = {() => props.onNext()}>next</Button>
+		</div>
+	)
 }
 
 type PlayerControlsProps = {
-  onPlayPressed: () => void
+    isPlaying: boolean
+    nextEnabled: boolean
+    prevEnabled: boolean
+    onPlay: () => void
+    onNext: () => void
+    onPrev: () => void
 }

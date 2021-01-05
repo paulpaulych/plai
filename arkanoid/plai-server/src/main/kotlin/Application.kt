@@ -4,7 +4,6 @@ import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.http.ContentType.Application.Json
 import org.slf4j.event.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
@@ -20,9 +19,13 @@ fun Application.module(testing: Boolean = false) {
         filter { call -> call.request.path().startsWith("/") }
     }
     install(PartialContent) {
-        // Maximum number of ranges that will be accepted from a HTTP request.
-        // If the HTTP request specifies more ranges, they will all be merged into a single range.
         maxRangeCount = 10
+    }
+    install(DefaultHeaders)
+    install(CORS){
+        anyHost()
+        header(HttpHeaders.AccessControlAllowOrigin)
+        header(HttpHeaders.AccessControlAllowMethods)
     }
     install(ContentNegotiation) {
         json(Json {

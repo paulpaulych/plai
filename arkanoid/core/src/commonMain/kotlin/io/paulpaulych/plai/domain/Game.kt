@@ -1,155 +1,92 @@
 package io.paulpaulych.plai.domain
 
-import io.paulpaulych.plai.domain.BallCollision.BrickCollision
-import io.paulpaulych.plai.domain.BallCollision.Type.*
 import kotlin.math.min
 
-data class GameConfig(
-    val ballSpeed: Int,
-    val paddleMaxSpeed: Int,
-    val height: Int,
-    val width: Int,
-    val paddleSize: Int,
-    val brickHeight: Int,
-    val brickWidth: Int,
+const val MAX_PERCENTS = 100.0
+
+data class MatchConfig(
+    val ballSpeed: Double,
+    val paddleSpeed: Double,
+    val paddleWidth: Double,
+    val paddleHeight: Double,
+    val brickHeight: Double,
+    val brickWidth: Double,
+    val ballRadius: Double,
 ){
     init {
         requirePositive(ballSpeed, "ballSpeed")
-        requirePositive(paddleMaxSpeed, "paddleMaxSpeed")
-        requirePositive(height, "height")
-        requirePositive(width, "width")
-        requirePositive(paddleSize, "paddleSize")
-        require(paddleSize < width){
-            "paddle size must be less than field width"
+        requirePositive(paddleSpeed, "paddleMaxSpeed")
+        requirePositive(paddleHeight, "paddleSize")
+        require(paddleWidth < MAX_PERCENTS){
+            "paddle width must be less than $MAX_PERCENTS"
         }
-        require(ballSpeed < min(width/4, height/4)){ "too fast ball" }
-        require(paddleMaxSpeed < min(width/4, height/4)){
-            "too fast paddle: $paddleMaxSpeed"
+        require(paddleHeight < MAX_PERCENTS){
+            "paddle height must be less than $MAX_PERCENTS"
+        }
+        require(ballSpeed < min(MAX_PERCENTS/4, MAX_PERCENTS/4)){ "too fast ball" }
+        require(paddleSpeed < min(MAX_PERCENTS/4, MAX_PERCENTS/4)){
+            "too fast paddle: $paddleSpeed"
         }
     }
 }
 
-data class Cell(val row: Int, val col: Int)
+data class Vector(val dx: Double, val dy: Double)
 
-data class Brick(
-    val startCell: Cell
-) {
+data class Pos(val x: Double, val y: Double)
 
-    fun cells(height: Int, width: Int): List<Cell> = (0 until height).flatMap { row ->
-        (0 until width).map { col ->
-            Cell(row = startCell.col + row, col = startCell.col + col)
-        }
-    }
+data class Brick(val pos: Pos)
 
-}
+data class Paddle (val x: Double)
 
-data class Paddle (
-    val col: Int,
-    val speed: Int)
-
-data class Ball(
-    val cell: Cell,
-    val direction: BallDirection
-){
-
+data class Ball(val pos: Pos, val vector: Vector){
     fun nextForward(): Ball {
-        val dirVector = direction.vector(1)
-        return copy(cell = Cell(
-            row = cell.row - dirVector.first,
-            col = cell.col - dirVector.second))
+        val newPos = Pos(pos.x - vector.dx, pos.y - vector.dy)
+        return copy(pos = newPos)
     }
-
-    fun reflect(collisionType: BallCollision.Type): Ball =
-        copy(direction = when(collisionType){
-            CORNER -> direction.opposite()
-            HORIZONTAL -> direction.oppositeHorizontal()
-            VERTICAL -> direction.oppositeVertical()
-        })
 }
 
 
-data class GameState(
+data class MatchState(
     val bricks: List<Brick>,
     val paddle: Paddle,
     val ball: Ball)
 
-data class BallDirection(
-    val vertPositive: Boolean,
-    val horPositive: Boolean
-) {
-    fun opposite() = BallDirection(!vertPositive, !horPositive)
-    fun oppositeHorizontal() = BallDirection(!vertPositive, horPositive)
-    fun oppositeVertical() = BallDirection(vertPositive, !horPositive)
-
-    fun vector(len: Int) = Pair(
-        if(vertPositive) len else -len,
-        if(horPositive) len else -len)
-}
-
 class Game(
-    private val config: GameConfig
+    private val config: MatchConfig
 ) {
 
     private var tickNumber = 0
 
-    private var state: GameState
+    private var state: MatchState
 
     init {
-        val bricksInRow = config.width  / 2 / config.brickWidth
-        val bricksInCol = config.height / 5 / config.brickHeight
+        val bricksOnHor = MAX_PERCENTS  / 2 / config.brickWidth
+        val bricksOnVer = MAX_PERCENTS / 5 / config.ballRadius
         val bricksRow = { rowNum: Int ->
-            (0 until bricksInRow).map { brickInRow ->
-                Brick(Cell(
-                    row = rowNum * 2 * config.brickHeight,
-                    col = brickInRow * 2 * config.brickWidth))
+            (0 until bricksOnHor.toInt()).map { brickInRowIndex ->
+                Brick(Pos(
+                        x = rowNum * 2 * config.brickWidth,
+                        y = brickInRowIndex * 2 * config.brickHeight))
             }
         }
-        val bricks = (0 until bricksInCol).flatMap(bricksRow)
+        val bricks = (0 until bricksOnVer.toInt()).flatMap(bricksRow)
         val ball = Ball(
-            cell = Cell(config.width / 2, config.height / 2),
-            direction = BallDirection(vertPositive = true, horPositive = true))
-
-        state = GameState(
+            pos = Pos(MAX_PERCENTS / 2, MAX_PERCENTS / 2),
+            vector = Vector(1.0, 1.0)
+        )
+        state = MatchState(
             bricks = bricks,
-            paddle = Paddle(col = 0, speed = 0),
+            paddle = Paddle(x = 0.0),
             ball = ball)
     }
 
-    fun tick(): GameState? {
+    fun tick(): MatchState? {
         val newBall = state.ball.nextForward()
-        checkBallCollision(newBall)
         state = state.copy(ball = newBall)
-
-        tickNumber++
-        return state.takeIf { tickNumber < 5 }
-    }
-
-    private fun checkBallCollision(newBall: Ball): BallCollision? {
-        val bricksToCells = state.bricks.map { brick ->
-            val cell = brick.startCell
-            val cells = state.bricks.associateBy(Brick::startCell)
-            brick to cells
-        }
-        bricksToCells.map { (brick, cells) ->
-            if (newBall.cell in cells){
-               return BrickCollision(brick, CORNER)
-            }
-        }
-
-        return null
+        return state.takeIf { 5 > tickNumber++ }
     }
 }
 
-fun requirePositive(v: Int, name: String){
+fun requirePositive(v: Double, name: String){
     require(v > 0) { "$name must be positive"}
-}
-
-sealed class BallCollision(
-    val type: Type
-) {
-    class BrickCollision(val brick: Brick, type: Type): BallCollision(type)
-    class BorderCollision(type: Type): BallCollision(type)
-    class PaddleCollision(brick: Brick, type: Type): BallCollision(type)
-
-    enum class Type { CORNER, HORIZONTAL, VERTICAL }
 }
